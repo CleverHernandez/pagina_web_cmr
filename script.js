@@ -1,7 +1,7 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth * 0.5, 390);
+renderer.setSize(window.innerWidth * 0.7, 400);
 document.getElementById('viewer').appendChild(renderer.domElement);
 
 const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -16,7 +16,7 @@ video.src = './video/cinnamoroll.mp4';
 video.loop = true;
 video.muted = true;  
 video.load();
-video.playbackRate = 0.5;  
+video.playbackRate = 0.6;  
 
 video.addEventListener('loadeddata', () => {
     console.log("Video cargado correctamente");
@@ -27,7 +27,7 @@ const texture = new THREE.VideoTexture(video);
 texture.needsUpdate = true; 
 const material = new THREE.MeshBasicMaterial({ map: texture });
 
-const geometry = new THREE.PlaneGeometry(42, 22);
+const geometry = new THREE.PlaneGeometry(40, 22);
 const plane = new THREE.Mesh(geometry, material);
 scene.add(plane);
 
