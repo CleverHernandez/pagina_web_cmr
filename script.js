@@ -1,25 +1,40 @@
-// Inicializar Three.js
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth * 0.5, 390);
 document.getElementById('viewer').appendChild(renderer.domElement);
 
-// Luz en la escena
-const light = new THREE.HemisphericLight(0xffffff, 0x444444, 1);
+const light = new THREE.DirectionalLight(0xffffff, 2);
+light.position.set(2, 2, 2);
 scene.add(light);
 
-// Posición de la cámara
-camera.position.set(0, 2, 5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
 
-// Cargar el modelo desde GitHub
-const loader = new THREE.GLTFLoader();
-const url = "https://tu-usuario.github.io/visor-modelos-3D/modelo.glb"; // Reemplaza con tu URL
-loader.load(url, function (gltf) {
-    scene.add(gltf.scene);
+const video = document.createElement('video');
+video.src = './video/cinnamoroll.mp4'; 
+video.loop = true;
+video.muted = true;  
+video.load();
+video.playbackRate = 0.5;  
+
+video.addEventListener('loadeddata', () => {
+    console.log("Video cargado correctamente");
+    video.play();
 });
 
-// Animación
+const texture = new THREE.VideoTexture(video);
+texture.needsUpdate = true; 
+const material = new THREE.MeshBasicMaterial({ map: texture });
+
+const geometry = new THREE.PlaneGeometry(42, 22);
+const plane = new THREE.Mesh(geometry, material);
+scene.add(plane);
+
+plane.position.z = -5;
+
+camera.position.set(0, 0, 10);
+
 function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
